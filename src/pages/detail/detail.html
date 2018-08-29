@@ -14,9 +14,11 @@
 
 
 <ion-content padding>
-  <ion-icon [name]="item.icon" item-start></ion-icon>
-  {{item.title}}
-  <div class="item-note" item-end>
-    {{item.note}}
-  </div>
+  <ion-card>
+    <ion-card-header>
+      <ion-icon [name]="item.icon" item-start></ion-icon>
+        {{item.title}}
+     </ion-card-header>
+    <ion-card-content>{{item.note}}</ion-card-content>
+  </ion-card>
 </ion-content>
