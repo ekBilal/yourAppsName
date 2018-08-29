@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Item } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 
 @Component({
   selector: 'page-detail',
@@ -8,11 +8,15 @@ import { NavController, NavParams, Item } from 'ionic-angular';
 export class DetailPage {
   item: {title: string, note: string, icon: string};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public viewCtrl: ViewController, public navParams: NavParams) {
   }
 
   ngOnInit(){
     this.item= this.navParams.get('item');
+  }
+
+  dismissModal(){
+    this.viewCtrl.dismiss();
   }
 
   ionViewDidLoad() {
