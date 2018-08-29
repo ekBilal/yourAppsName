@@ -3,8 +3,11 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import * as firebase from 'firebase';
+
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
+import { AuthPage } from '../pages/auth/auth';
 
 @Component({
   templateUrl: 'app.html'
@@ -22,23 +25,31 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+      { title: 'List', component: ListPage },
+      { title: 'Connection', component: AuthPage }
     ];
 
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
+      let config = {
+        apiKey: "AIzaSyC-hNCy8hG66Wocg8NZ2iCXh4v-hm5MkHg",
+        authDomain: "fire-qcm.firebaseapp.com",
+        databaseURL: "https://fire-qcm.firebaseio.com",
+        projectId: "fire-qcm",
+        storageBucket: "fire-qcm.appspot.com",
+        messagingSenderId: "693819937947"
+      };
+      firebase.initializeApp(config);
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
   }
 
-  openPage(page) {
+  openPage(page: any, data?: {}) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    this.nav.setRoot(page.component, data ? data:null);
   }
 }

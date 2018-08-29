@@ -9,13 +9,16 @@ import { ListPage } from '../pages/list/list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DetailPage } from '../pages/detail/detail';
+import { AuthService } from '../service/auth.service';
+import { AuthPage } from '../pages/auth/auth';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     ListPage,
-    DetailPage
+    DetailPage,
+    AuthPage
   ],
   imports: [
     BrowserModule,
@@ -26,12 +29,14 @@ import { DetailPage } from '../pages/detail/detail';
     MyApp,
     HomePage,
     ListPage,
-    DetailPage
+    DetailPage,
+    AuthPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthService
   ]
 })
 export class AppModule {}
