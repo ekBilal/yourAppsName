@@ -1,17 +1,27 @@
-import { Component } from '@angular/core';
-import { NavParams, ModalController } from 'ionic-angular';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NavParams, ModalController, ToastController, LoadingController } from 'ionic-angular';
 import { DetailPage } from '../detail/detail';
+import { Item } from '../../models/Item';
+import { Subscription } from 'rxjs/Subscription';
+import { ItemsService } from '../../service/items.service';
 
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
 })
-export class ListPage {
+
+export class ListPage implements OnInit, OnDestroy{
   selectedItem: any;
   icons: string[];
-  items: Array<{title: string, note: string, icon: string}>;
+  itemsList: Item[];
+  itemsSubscription: Subscription;
 
-  constructor(public modCtrl: ModalController, public navParams: NavParams) {
+  constructor(private modCtrl: ModalController, 
+              private navParams: NavParams,
+              private itemsService: ItemsService,
+              private toastCtrl : ToastController,
+              private loadingCtrl : LoadingController
+            ) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
 
@@ -19,9 +29,8 @@ export class ListPage {
     this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
     'american-football', 'boat', 'bluetooth', 'build'];
 
-    this.items = [];
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
+    for (let i = 1; i < 21; i++) {
+      this.itemsList.push({
         title: 'Item ' + i,
         note: 'This is item #' + i,
         icon: this.icons[Math.floor(Math.random() * this.icons.length)]
@@ -34,5 +43,42 @@ export class ListPage {
       item: item
     });
     modal.present();
+  }
+
+  onSaveList() {
+    let loader = this.loadingCtrl.create({
+      content: 'Sauvegarde en cours…'
+    });
+    loader.present();
+    this.itemsService.saveData().then(
+      () => {
+        loader.dismiss();
+        this.toastCtrl.create({
+          message: 'Données sauvegardées !',
+          duration: 3000,
+          position: 'bottom'
+        }).present();
+      },
+      (error) => {
+        loader.dismiss();
+        this.toastCtrl.create({
+          message: error,
+          duration: 3000,
+          position: 'bottom'
+        }).present();
+      }
+    );
+  }
+
+  ngOnInit(){
+    this.itemsSubscription = this.itemsService.items$.subscribe(
+      (items: Item[])=>{
+        this.itemsList = items;
+      }
+    )
+  }
+
+  ngOnDestroy(){
+    this.itemsSubscription.unsubscribe();
   }
 }

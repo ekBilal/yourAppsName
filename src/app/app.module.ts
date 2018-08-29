@@ -11,6 +11,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { DetailPage } from '../pages/detail/detail';
 import { AuthService } from '../service/auth.service';
 import { AuthPage } from '../pages/auth/auth';
+import { ItemsService } from '../service/items.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { AuthPage } from '../pages/auth/auth';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthService
+    AuthService,
+    ItemsService
   ]
 })
 export class AppModule {}

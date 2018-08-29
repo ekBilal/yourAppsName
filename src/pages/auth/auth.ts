@@ -42,7 +42,7 @@ export class AuthPage implements OnInit{
           console.log("bsahtek le nouveau");
         },
         (error) => {
-          console.log("tu crain le nouveau");
+          this.errorMessage=error;
         }
       );
     } else if (this.mode === 'connect') {
@@ -51,7 +51,7 @@ export class AuthPage implements OnInit{
           console.log("le salam");
         },
         (error) => {
-          console.log("whesh ?");
+          this.errorMessage=error;
         }
       );
     }
